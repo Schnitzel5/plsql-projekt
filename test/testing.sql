@@ -1,4 +1,7 @@
 CREATE OR REPLACE PACKAGE test_use_cases AS
+    --%suite
+
+    --%test()
     PROCEDURE check_get_num;
 END;
 /
