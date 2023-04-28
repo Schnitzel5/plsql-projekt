@@ -1,0 +1,14 @@
+CREATE OR REPLACE PACKAGE basic_uc AS
+    FUNCTION get_num RETURN NUMBER;
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY basic_uc AS
+    FUNCTION get_num
+        RETURN NUMBER
+    IS
+    BEGIN
+        RETURN 123;
+    end;
+END;
+/
