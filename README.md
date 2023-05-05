@@ -1,6 +1,8 @@
 # CodeLab
-## (The current SQL file is still WIP and might not work properly yet!)
 ### by Philip Duong & Christopher Reisinger 4DHIF
+
+## Progress
+DDL script done, Mock data soon
 
 ## About this project
 Motivated programmers can learn new programming languages using CodeLab, 
