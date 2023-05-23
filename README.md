@@ -22,3 +22,5 @@ Completing all the connected exercises will also mark the current concept as mas
 Exercises have a status (completed, in-progress and available), a difficulty level (easy, medium, hard, ...), 
 instructions which will be checked by tests once the solution is submitted (new iteration for each submit).
 
+
+
