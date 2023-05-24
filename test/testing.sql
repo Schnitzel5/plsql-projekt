@@ -1,40 +1,34 @@
 CREATE OR REPLACE TYPE ARRAY_TEST is table of varchar2(2048);
 
 CREATE OR REPLACE PACKAGE test_use_cases AS
-    --%suite
+    -- %suite
 
-    --%test()
+    -- %test
     PROCEDURE check_create_user;
 
-    --%test()
+    -- %test
     PROCEDURE check_if_submitted_exercise_successful;
 
-    --%test()
+    -- %test
     PROCEDURE check_get_successful_submissions;
 
-    --%test()
+    -- %test
     PROCEDURE check_create_exercise;
 
-    --%test()
+    -- %test
     PROCEDURE check_create_test;
 
-    --%test()
+    -- %test
     PROCEDURE check_log;
 
-    --%test()
+    -- %test
     PROCEDURE check_promote_mentor;
 
-    --%test()
+    -- %test
     PROCEDURE check_setup_test_runs;
 
-    --%test()
+    -- %test
     PROCEDURE check_if_user_absolved_concepts;
-
-    --%test()
-    PROCEDURE check_print_all_tracks;
-
-    --%test()
-    PROCEDURE check_print_all_exercises;
 END;
 /
 
@@ -49,7 +43,7 @@ CREATE OR REPLACE PACKAGE BODY test_use_cases AS
     PROCEDURE check_if_submitted_exercise_successful
     IS
     BEGIN
-        utt.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(1)).to_equal(TRUE);
+        ut.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(1)).to_equal(TRUE);
         INSERT INTO TR_TEST_RUN (TR_TE_TEST, TR_SE_EXERCISE, TR_BEGIN, TR_END, TR_SUCCESS) VALUES (1, 1, SYSDATE, SYSDATE, 0);
         ut.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(1)).to_equal(FALSE);
     END;
@@ -77,8 +71,15 @@ CREATE OR REPLACE PACKAGE BODY test_use_cases AS
     BEGIN
         SELECT E_ID INTO v_id FROM E_EXERCISE WHERE E_NAME = 'Jeff';
         SELECT COUNT(*) INTO v_count FROM TE_TEST WHERE TE_E_EXERCISE = v_id;
-        ut.expect(v_count).to_equal(1);
+        ut.expect(v_count).to_equal(0);
         BASIC_UC.CREATE_TEST(v_count, ARRAY_TEST('random code', 'code your own way', 'coding your way out of the code'));
+        SELECT COUNT(*) INTO v_count FROM TE_TEST WHERE TE_E_EXERCISE = v_id;
+        ut.expect(v_count).to_equal(3);
+    END;
+
+    PROCEDURE check_log
+    AS
+    BEGIN
     END;
 
     PROCEDURE check_promote_mentor
@@ -94,6 +95,16 @@ CREATE OR REPLACE PACKAGE BODY test_use_cases AS
         BASIC_UC.SUBMIT_SOLUTION(5, 3, 0, 'some code');
         ADVANCED_UC.PROMOTE_MENTOR('jroyston2@mapy.cz', v_success);
         ut.expect(v_success).to_equal(1);
+    END;
+
+    PROCEDURE check_setup_test_runs
+    AS
+    BEGIN
+    END;
+
+    PROCEDURE check_if_user_absolved_concepts
+    AS
+    BEGIN
     END;
 END;
 /
