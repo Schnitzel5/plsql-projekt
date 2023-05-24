@@ -83,17 +83,29 @@ VALUES (1, 5);
 
 
 insert into E_EXERCISE (E_NAME, E_DESCRIPTION, E_TR_TRACK, E_D_DIFFICULTY)
-VALUES ('Infinite Loops: Conquering the Endless Challenge!', 'Prepare yourself for an epic coding odyssey where loops know no bounds! In this mind-bending journey, you''ll be thrust into the depths of complex looping scenarios that defy conventional limits. Brace yourself as you navigate through a maze of intricate conditions, dynamic iterations, and enigmatic patterns. With each loop iteration, you''ll face new challenges that push your problem-solving prowess to the extreme. Only the bravest coders dare to embark on this quest to conquer the elusive infinite loop. Are you up for the challenge? Sharpen your logic, steel your determination, and get ready to conquer the endless abyss of coding complexity in Infinite Loops: Conquering the Endless Challenge!', 3, 2);
+VALUES ('Infinite Loops: Conquering the Endless Challenge!',
+        'Prepare yourself for an epic coding odyssey where loops know no bounds! In this mind-bending journey, you''ll be thrust into the depths of complex looping scenarios that defy conventional limits. Brace yourself as you navigate through a maze of intricate conditions, dynamic iterations, and enigmatic patterns. With each loop iteration, you''ll face new challenges that push your problem-solving prowess to the extreme. Only the bravest coders dare to embark on this quest to conquer the elusive infinite loop. Are you up for the challenge? Sharpen your logic, steel your determination, and get ready to conquer the endless abyss of coding complexity in Infinite Loops: Conquering the Endless Challenge!',
+        3, 2);
 insert into E_EXERCISE (E_NAME, E_DESCRIPTION, E_TR_TRACK, E_D_DIFFICULTY)
-VALUES ('Enum-igma: Deciphering the Enigmatic Enumerations!', 'Step into a realm of enigmatic codes and unravel the mysteries of powerful enumerations in this brain-teasing adventure! Prepare to embark on a quest where the true essence of enums lies hidden. As you delve deeper into the Enum-igma, you''ll face perplexing puzzles, complex decision-making scenarios, and mind-bending transformations. Your skills will be put to the test as you unlock the secrets of enum-based architectures, harness their versatility, and conquer the code''s ultimate conundrums. Brace yourself for a thrilling journey where deciphering the enigmatic enumerations is the key to programming mastery. Can you crack the Enum-igma and emerge as the undisputed Enum Maestro?', 3, 2);
+VALUES ('Enum-igma: Deciphering the Enigmatic Enumerations!',
+        'Step into a realm of enigmatic codes and unravel the mysteries of powerful enumerations in this brain-teasing adventure! Prepare to embark on a quest where the true essence of enums lies hidden. As you delve deeper into the Enum-igma, you''ll face perplexing puzzles, complex decision-making scenarios, and mind-bending transformations. Your skills will be put to the test as you unlock the secrets of enum-based architectures, harness their versatility, and conquer the code''s ultimate conundrums. Brace yourself for a thrilling journey where deciphering the enigmatic enumerations is the key to programming mastery. Can you crack the Enum-igma and emerge as the undisputed Enum Maestro?',
+        3, 2);
 insert into E_EXERCISE (E_NAME, E_DESCRIPTION, E_TR_TRACK, E_D_DIFFICULTY)
-VALUES ('Looping Around: Unraveling the Tangled Code!', 'Welcome to a coding adventure like no other! Prepare to dive headfirst into a whirlwind of loops as you unravel the mysteries of tangled code. In this thrilling challenge, you''ll navigate through a maze of loops, twist and turn your way around complex logic, and emerge victorious as the Master Unraveler. Brace yourself for a rollercoaster of emotions, from frustration to elation, as you conquer each loop and bring order to the chaos. Get ready to loop around, debug with gusto, and untangle that code like a true coding hero!', 3, 1);
+VALUES ('Looping Around: Unraveling the Tangled Code!',
+        'Welcome to a coding adventure like no other! Prepare to dive headfirst into a whirlwind of loops as you unravel the mysteries of tangled code. In this thrilling challenge, you''ll navigate through a maze of loops, twist and turn your way around complex logic, and emerge victorious as the Master Unraveler. Brace yourself for a rollercoaster of emotions, from frustration to elation, as you conquer each loop and bring order to the chaos. Get ready to loop around, debug with gusto, and untangle that code like a true coding hero!',
+        3, 1);
 insert into E_EXERCISE (E_NAME, E_DESCRIPTION, E_TR_TRACK, E_D_DIFFICULTY)
-VALUES ('Enumjoy the Journey: Exploring the World of Enumerations', 'Get ready for a whimsical adventure through the realm of enumerations! In this coding quest, you''ll unlock the hidden powers of enums and embark on a journey that will have you giggling and pondering at every step. Prepare to chuckle your way through clever wordplay, discover the versatility of enums, and become the ultimate Enumaster! So grab your coding cape, put on your witty thinking cap, and get ready to Enumjoy the Journey like never before!', 3, 1);
+VALUES ('Enumjoy the Journey: Exploring the World of Enumerations',
+        'Get ready for a whimsical adventure through the realm of enumerations! In this coding quest, you''ll unlock the hidden powers of enums and embark on a journey that will have you giggling and pondering at every step. Prepare to chuckle your way through clever wordplay, discover the versatility of enums, and become the ultimate Enumaster! So grab your coding cape, put on your witty thinking cap, and get ready to Enumjoy the Journey like never before!',
+        3, 1);
 insert into E_EXERCISE (E_NAME, E_DESCRIPTION, E_TR_TRACK, E_D_DIFFICULTY)
-VALUES ('Hello World', 'Let''s dive into the fantastic world of Java by writing the most famous beginner programm! Hello World!', 3, 1);
+VALUES ('Hello World',
+        'Let''s dive into the fantastic world of Java by writing the most famous beginner programm! Hello World!', 3,
+        1);
 insert into E_EXERCISE (E_NAME, E_DESCRIPTION, E_TR_TRACK, E_D_DIFFICULTY)
-VALUES ('Eternal Loop: Defying the Boundaries of Complexity!', 'Prepare to enter a coding realm where loops transcend the realm of the ordinary and delve into the abyss of true complexity! Brace yourself for an extraordinary challenge as you confront the Eternal Loop—a mind-bending trial that defies all expectations. In this grueling journey, you''ll encounter loops of unimaginable intricacy, demanding your utmost concentration, creativity, and mastery of algorithmic thinking. Each twist and turn will test the very limits of your coding abilities as you navigate through tangled logic, intricate conditions, and labyrinthine iterations. Prepare to confront the relentless Eternal Loop, surpass its infinite challenges, and emerge as a true loop virtuoso—a coder who defies the boundaries of complexity!', 3, 3);
+VALUES ('Eternal Loop: Defying the Boundaries of Complexity!',
+        'Prepare to enter a coding realm where loops transcend the realm of the ordinary and delve into the abyss of true complexity! Brace yourself for an extraordinary challenge as you confront the Eternal Loop—a mind-bending trial that defies all expectations. In this grueling journey, you''ll encounter loops of unimaginable intricacy, demanding your utmost concentration, creativity, and mastery of algorithmic thinking. Each twist and turn will test the very limits of your coding abilities as you navigate through tangled logic, intricate conditions, and labyrinthine iterations. Prepare to confront the relentless Eternal Loop, surpass its infinite challenges, and emerge as a true loop virtuoso—a coder who defies the boundaries of complexity!',
+        3, 3);
 
 
 
@@ -124,9 +136,4 @@ insert into TE_TEST (TE_CODE, TE_E_EXERCISE)
 VALUES ('assertThat(result).isEqualTo("Hello World!")', 5);
 insert into TE_TEST (TE_CODE, TE_E_EXERCISE)
 VALUES ('assertEqualsOrLower(trackTimerMillis(submittedCode.run()), 1000);', 6);
-
-
-
--- tr_test_run, se_submitted_exercise, mr_mentor_request WERDEN ÜBER FUNCTIONS/PROCEDURES gefüllt
-
 
