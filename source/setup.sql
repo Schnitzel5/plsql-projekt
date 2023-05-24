@@ -32,13 +32,31 @@ CREATE OR REPLACE PACKAGE BODY basic_uc AS
         RETURN 123;
     end;
 
+    FUNCTION check_if_submitted_exercise_successful
+    (
+        p_submitted_exercise SE_SUBMITTED_EXERCISE.SE_ID%TYPE
+    )
+    RETURN BOOLEAN
+    AS
+        v_successful BOOLEAN;
+    BEGIN
+        v_successful := TRUE;
+        SELECT FALSE into v_successful FROM TR_TEST_RUN where TR_SE_EXERCISE = p_submitted_exercise AND TR_SUCCESS = 0;
+        RETURN v_successful;
+    END;
+
     FUNCTION get_successful_submissions
-        (p_user US_USER.U_ID%TYPE)
+    (p_user US_USER.U_ID%TYPE)
     RETURN NUMBER
     AS
         v_successful_submissions NUMBER;
+        CURSOR c1 IS SELECT SE_ID FROM SE_SUBMITTED_EXERCISE WHERE SE_US_USER = p_user;
     BEGIN
-        SELECT COUNT(*) INTO v_successful_submissions FROM SE_SUBMITTED_EXERCISE WHERE SE_US_USER = p_user;
+        for x in c1 loop
+            IF check_if_submitted_exercise_successful(x) THEN
+                v_successful_submissions := v_successful_submissions + 1;
+            END IF;
+            end loop;
         RETURN v_successful_submissions;
     END;
 
@@ -89,10 +107,19 @@ CREATE OR REPLACE PACKAGE BODY advanced_uc AS
                 p_success := 0;
         END IF;
     END;
-    PROCEDURE submit_exercise ()
-    AS
-    BEGIN
 
+    PROCEDURE submit_solution(p_exercise IN NUMBER, p_user IN NUMBER, p_public IN NUMBER(1), p_code IN VARCHAR2(2048))
+    AS
+        v_unlocked_exercise_key NUMBER;
+    BEGIN
+        v_unlocked_exercise_key := 0;
+        SELECT SE_UNLOCKED_EXERCISE_KEY INTO v_unlocked_exercise_key FROM SE_SUBMITTED_EXERCISE WHERE SE_US_USER = p_user AND SE_E_EXERCISE = p_exercise;
+        if (v_unlocked_exercise_key = 0) THEN
+            INSERT INTO SE_SUBMITTED_EXERCISE (SE_E_EXERCISE, SE_US_USER, SE_UNLOCKED_EXERCISE_KEY, SE_SUBMISSION_DATE, SE_PUBLIC, SE_CODE)
+            values (p_exercise, p_user, 1, CURRENT_TIMESTAMP, p_public, p_code);
+        ELSE
+            UPDATE SE_SUBMITTED_EXERCISE SET SE_UNLOCKED_EXERCISE_KEY = v_unlocked_exercise_key + 1, SE_SUBMISSION_DATE = CURRENT_TIMESTAMP, SE_PUBLIC = p_public, SE_CODE = p_code WHERE SE_US_USER = p_user AND SE_E_EXERCISE = p_exercise;
+        end if;
     END;
 END;
 /
