@@ -14,6 +14,17 @@ END;
 /
 
 CREATE OR REPLACE PACKAGE BODY basic_uc AS
+
+    FUNCTION create_user (p_username IN US_USER.U_USERNAME%TYPE, p_email IN US_USER.U_EMAIL%TYPE, p_password IN US_USER.U_PASSWORD%TYPE)
+        RETURN BOOLEAN
+    IS
+    BEGIN
+        insert into us_user (u_username, u_email, u_password, U_IS_MENTOR) values (p_username, p_email, p_password, 0);
+        RETURN TRUE;
+        EXCEPTION WHEN OTHERS THEN
+            RETURN FALSE;
+    END;
+
     FUNCTION get_num
         RETURN NUMBER
     IS
@@ -25,8 +36,10 @@ CREATE OR REPLACE PACKAGE BODY basic_uc AS
         (p_user US_USER.U_ID%TYPE)
     RETURN NUMBER
     AS
+        v_successful_submissions NUMBER;
     BEGIN
-
+        SELECT COUNT(*) INTO v_successful_submissions FROM SE_SUBMITTED_EXERCISE WHERE SE_US_USER = p_user;
+        RETURN v_successful_submissions;
     END;
 
     PROCEDURE submit_solution
@@ -75,6 +88,11 @@ CREATE OR REPLACE PACKAGE BODY advanced_uc AS
             ELSE
                 p_success := 0;
         END IF;
+    END;
+    PROCEDURE submit_exercise ()
+    AS
+    BEGIN
+
     END;
 END;
 /
