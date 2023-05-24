@@ -136,4 +136,4 @@ insert into TE_TEST (TE_CODE, TE_E_EXERCISE)
 VALUES ('assertThat(result).isEqualTo("Hello World!")', 5);
 insert into TE_TEST (TE_CODE, TE_E_EXERCISE)
 VALUES ('assertEqualsOrLower(trackTimerMillis(submittedCode.run()), 1000);', 6);
-
+/

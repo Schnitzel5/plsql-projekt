@@ -1,4 +1,5 @@
 CREATE OR REPLACE TYPE ARRAY_TEST is table of varchar2(2048);
+/
 
 CREATE OR REPLACE PACKAGE test_use_cases AS
     -- %suite
