@@ -22,6 +22,9 @@ CREATE OR REPLACE PACKAGE basic_uc AS
         p_description IN VARCHAR2,
         p_difficulty IN NUMBER,
         p_track IN NUMBER);
+    PROCEDURE create_test
+        (p_exercise IN NUMBER,
+        p_tests IN ARRAY_TEST);
     PROCEDURE log
         (p_message IN VARCHAR2);
 END;
@@ -37,7 +40,7 @@ CREATE OR REPLACE PACKAGE BODY basic_uc AS
     IS
     BEGIN
         insert into us_user (u_username, u_email, u_password, U_IS_MENTOR) values (p_username, p_email, p_password, 0);
-        log('ser '' created!');
+        log('User "' || p_email || '" created!');
         RETURN TRUE;
     EXCEPTION
         WHEN OTHERS THEN RETURN FALSE;
@@ -55,7 +58,7 @@ CREATE OR REPLACE PACKAGE BODY basic_uc AS
         v_successful := TRUE;
         v_value := 0;
         SELECT 1 into v_value FROM TR_TEST_RUN where TR_SE_EXERCISE = p_submitted_exercise AND TR_SUCCESS = 0;
-        if(v_value = 1) THEN
+        if v_value = 1 THEN
             v_successful := FALSE;
         end if;
         RETURN v_successful;
@@ -102,7 +105,6 @@ CREATE OR REPLACE PACKAGE BODY basic_uc AS
     AS
         v_exists BOOLEAN;
         v_value NUMBER;
-
         e_already_exists EXCEPTION;
     BEGIN
         v_exists := FALSE;
@@ -115,7 +117,7 @@ CREATE OR REPLACE PACKAGE BODY basic_uc AS
             RAISE e_already_exists;
         END IF;
         INSERT INTO E_EXERCISE (E_NAME, E_DESCRIPTION, E_D_DIFFICULTY, E_TR_TRACK) VALUES (p_name, p_description, p_difficulty, p_track);
-        log('New exercise "" created!');
+        log('New exercise "' || p_name || '" created!');
     EXCEPTION
         WHEN e_already_exists THEN RAISE_APPLICATION_ERROR(-20001, 'Exercise already exists! Choose another name!');
         WHEN OTHERS THEN RAISE_APPLICATION_ERROR(-20002, 'Something went wrong!');
@@ -187,7 +189,7 @@ CREATE OR REPLACE PACKAGE BODY advanced_uc AS
     p_success OUT INTEGER)
     AS
     BEGIN
-        IF basic_uc.get_successful_submissions(p_email) >= 15
+        IF basic_uc.get_successful_submissions(p_email) >= 5
             THEN
                 UPDATE US_USER SET U_IS_MENTOR = 1 WHERE U_EMAIL = p_email;
                 basic_uc.log('User ''' || p_email || ''' is now a mentor!');
