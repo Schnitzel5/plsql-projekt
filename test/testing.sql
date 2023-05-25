@@ -5,10 +5,13 @@ CREATE OR REPLACE PACKAGE test_use_cases AS
     PROCEDURE check_create_user;
 
     -- %test
-    PROCEDURE check_if_submitted_exercise_successful;
+    PROCEDURE check_submit_solution;
 
     -- %test
     PROCEDURE check_get_successful_submissions;
+
+    -- %test
+    PROCEDURE check_if_submitted_exercise_successful;
 
     -- %test
     PROCEDURE check_create_exercise;
@@ -17,13 +20,14 @@ CREATE OR REPLACE PACKAGE test_use_cases AS
     PROCEDURE check_create_test;
 
     -- %test
+    -- %throws(-20001)
+    PROCEDURE check_create_test_not_found;
+
+    -- %test
     PROCEDURE check_log;
 
     -- %test
     PROCEDURE check_promote_mentor;
-
-    -- %test
-    PROCEDURE check_setup_test_runs;
 
     -- %test
     PROCEDURE check_if_user_absolved_concepts;
@@ -34,23 +38,34 @@ CREATE OR REPLACE PACKAGE BODY test_use_cases AS
     PROCEDURE check_create_user
         IS
     BEGIN
-        ut.expect(basic_uc.create_user('test', 'test')).to_equal(TRUE);
-        ut.expect(basic_uc.create_user('test', 'test')).to_equal(FALSE);
+        ut.expect(basic_uc.create_user('test', 'test', 'IAmADuck2')).to_equal(TRUE);
+        ut.expect(basic_uc.create_user('test', 'test', NULL)).to_equal(FALSE);
     END;
 
-    PROCEDURE check_if_submitted_exercise_successful
+    PROCEDURE check_submit_solution
     IS
     BEGIN
-        ut.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(1)).to_equal(TRUE);
-        INSERT INTO TR_TEST_RUN (TR_TE_TEST, TR_SE_EXERCISE, TR_BEGIN, TR_END, TR_SUCCESS) VALUES (1, 1, SYSDATE, SYSDATE, 0);
-        ut.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(1)).to_equal(FALSE);
+        ut.expect(basic_uc.GET_SUCCESSFUL_SUBMISSIONS(4)).to_equal(0);
+        BASIC_UC.SUBMIT_SOLUTION(5, 4, 0, 'some code');
+        ut.expect(basic_uc.GET_SUCCESSFUL_SUBMISSIONS(4)).to_equal(1);
     END;
 
     PROCEDURE check_get_successful_submissions
     IS
     BEGIN
-        BASIC_UC.SUBMIT_SOLUTION(1, 1, 1, 'test');
-        ut.expect(basic_uc.GET_SUCCESSFUL_SUBMISSIONS(1)).to_equal(1);
+        BASIC_UC.SUBMIT_SOLUTION(5, 4, 0, 'some code');
+        ut.expect(basic_uc.GET_SUCCESSFUL_SUBMISSIONS(4)).to_equal(1);
+    END;
+
+    PROCEDURE check_if_submitted_exercise_successful
+    IS
+        v_id NUMBER;
+    BEGIN
+        BASIC_UC.SUBMIT_SOLUTION(5, 4, 0, 'some code');
+        SELECT SE_ID INTO v_id FROM SE_SUBMITTED_EXERCISE WHERE SE_E_EXERCISE = 5 AND SE_US_USER = 4;
+        ut.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(v_id)).to_equal(TRUE);
+        INSERT INTO TR_TEST_RUN (TR_TE_TEST, TR_SE_EXERCISE, TR_BEGIN, TR_END, TR_SUCCESS) VALUES (1, v_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0);
+        ut.expect(basic_uc.CHECK_IF_SUBMITTED_EXERCISE_SUCCESSFUL(v_id)).to_equal(FALSE);
     END;
 
     PROCEDURE check_create_exercise
@@ -67,17 +82,30 @@ CREATE OR REPLACE PACKAGE BODY test_use_cases AS
         v_id NUMBER;
         v_count NUMBER;
     BEGIN
+        BASIC_UC.CREATE_EXERCISE('Jeff', 'This is jeff. Our Test prob.', 1, 1);
         SELECT E_ID INTO v_id FROM E_EXERCISE WHERE E_NAME = 'Jeff';
         SELECT COUNT(*) INTO v_count FROM TE_TEST WHERE TE_E_EXERCISE = v_id;
         ut.expect(v_count).to_equal(0);
-        BASIC_UC.CREATE_TEST(v_count, ARRAY_TEST('random code', 'code your own way', 'coding your way out of the code'));
+        BASIC_UC.CREATE_TEST(v_id, ARRAY_TEST('random code', 'code your own way', 'coding your way out of the code'));
         SELECT COUNT(*) INTO v_count FROM TE_TEST WHERE TE_E_EXERCISE = v_id;
         ut.expect(v_count).to_equal(3);
     END;
 
+    PROCEDURE check_create_test_not_found
+    IS
+    BEGIN
+        BASIC_UC.CREATE_TEST(999, ARRAY_TEST('random code', 'code your own way', 'coding your way out of the code'));
+    END;
+
     PROCEDURE check_log
     AS
+        v_count NUMBER;
     BEGIN
+        SELECT COUNT(*) INTO v_count FROM AL_AUDIT_LOG;
+        ut.expect(v_count).to_equal(0);
+        BASIC_UC.LOG('Test log message.');
+        SELECT COUNT(*) INTO v_count FROM AL_AUDIT_LOG;
+        ut.expect(v_count).to_equal(1);
     END;
 
     PROCEDURE check_promote_mentor
@@ -95,14 +123,12 @@ CREATE OR REPLACE PACKAGE BODY test_use_cases AS
         ut.expect(v_success).to_equal(1);
     END;
 
-    PROCEDURE check_setup_test_runs
-    AS
-    BEGIN
-    END;
-
     PROCEDURE check_if_user_absolved_concepts
     AS
     BEGIN
+        ut.expect(ADVANCED_UC.CHECK_IF_USER_ABSOLVED_CONCEPTS(4, 3)).to_equal(FALSE);
+        INSERT INTO AC_ABSOLVED_CONCEPTS (AC_US_USER, AC_C_CONCEPT) VALUES (4, 1);
+        ut.expect(ADVANCED_UC.CHECK_IF_USER_ABSOLVED_CONCEPTS(4, 3)).to_equal(TRUE);
     END;
 END;
 /
